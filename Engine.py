@@ -83,6 +83,38 @@ def emoji_analysis(selected_user, df):
 
     return df_emoji,emoji_wc
 
+def monthly_data(selected_user, df):
+    if selected_user!='Overall':
+        df = df[df['username']==selected_user]
+
+    monthly_data = df.groupby(['year','month']).count()['message'].reset_index()
+    timeline = []
+    for i in range(monthly_data.shape[0]):
+        timeline.append(monthly_data['month'][i] + "-" + str(monthly_data['year'][i]))
+    monthly_data['timeline'] = timeline
+    monthly_data['MonthYear'] = pd.to_datetime(monthly_data['timeline'], format='%B-%Y')
+    monthly_data = monthly_data.sort_values(by='MonthYear')
+    return monthly_data, df['month'].value_counts()
+
+def daily_data(selected_user, df):
+    if selected_user!='Overall':
+        df = df[df['username']==selected_user]
+    print(df)
+    daily_data = df.groupby('only_date').count()['message'].reset_index()
+
+    return daily_data
+
+def week_data(selected_user, df):
+    if selected_user!='Overall':
+        df = df[df['username']==selected_user]
+
+    week_data = df['day_name'].value_counts()
+    return week_data
+
+
+    
+
+
     
 
 

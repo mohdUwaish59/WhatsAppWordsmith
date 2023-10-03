@@ -74,6 +74,31 @@ if file is not None:
             st.header('Most frequent emojis')
             st.plotly_chart(fig3)
 
+        
+        monthly_data, monthly_data_count = Engine.monthly_data(selected_user, df)
+        fig_m = px.line(monthly_data, y= monthly_data.message, x = monthly_data.timeline)
+        fig_b = px.bar(monthly_data_count, x=monthly_data_count.index,y=monthly_data_count.values)
+        st.plotly_chart(fig_m)
+        st.plotly_chart(fig_b)
+
+
+        daily_data = Engine.daily_data(selected_user, df)
+        print(daily_data)
+        fig_d = px.line(daily_data, y= daily_data.message, x = daily_data.only_date)
+        st.plotly_chart(fig_d)
+
+        st.title("Weekly Activity")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.header("Most busy day")
+            busy_day = Engine.week_data(selected_user,df)
+            fig = px.bar(busy_day,x=busy_day.index, y= busy_day.values)
+            st.plotly_chart(fig)
+
+
+
+
+
             
 
         
