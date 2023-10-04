@@ -78,6 +78,7 @@ if file is not None:
         monthly_data, monthly_data_count = Engine.monthly_data(selected_user, df)
         fig_m = px.line(monthly_data, y= monthly_data.message, x = monthly_data.timeline)
         fig_b = px.bar(monthly_data_count, x=monthly_data_count.index,y=monthly_data_count.values)
+        st.header("Downfall of Brogrammers")
         st.plotly_chart(fig_m)
         st.plotly_chart(fig_b)
 
@@ -99,7 +100,7 @@ if file is not None:
 
         heatmap  = Engine.activity_heat_map(selected_user, df)
         fig, ax = plt.subplots()
-        ax = sns.heatmap(heatmap,annot=True, fmt='.2f')
+        ax = sns.heatmap(heatmap)
         
         st.pyplot(fig)
 
