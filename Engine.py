@@ -112,7 +112,13 @@ def week_data(selected_user, df):
     return week_data
 
 
-    
+def activity_heat_map(selected_user, df):
+    if selected_user!='Overall':
+        df = df[df['username']==selected_user]
+
+    heatmap = df.pivot_table(index = 'day_name', columns = 'period', values = 'message', aggfunc = 'count').fillna(0)
+    return heatmap
+
 
 
     

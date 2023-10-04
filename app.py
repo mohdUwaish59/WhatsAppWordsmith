@@ -2,8 +2,8 @@ import streamlit as st
 import Preprocess_Engine
 import Engine
 import plotly.express as px
-from PIL import Image
-import io
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 st.sidebar.title("Whatspp Chat ANalysis")
 file = st.sidebar.file_uploader("Upload chat data file")
@@ -94,6 +94,14 @@ if file is not None:
             busy_day = Engine.week_data(selected_user,df)
             fig = px.bar(busy_day,x=busy_day.index, y= busy_day.values)
             st.plotly_chart(fig)
+
+
+
+        heatmap  = Engine.activity_heat_map(selected_user, df)
+        fig, ax = plt.subplots()
+        ax = sns.heatmap(heatmap,annot=True, fmt='.2f')
+        
+        st.pyplot(fig)
 
 
 
