@@ -1,5 +1,5 @@
 import streamlit as st
-import Preprocess_Engine
+import Preprocess_Engine,Telegram_Preprocess_Engine
 import Engine
 import plotly.express as px
 import matplotlib.pyplot as plt
@@ -9,13 +9,18 @@ st.sidebar.title("Whatspp Chat ANalysis")
 file = st.sidebar.file_uploader("Upload chat data file")
 
 if file is not None:
-    bytesdata = file.getvalue()
-    data= bytesdata.decode("utf-8")
+    if file.type == "text/plain":
+        bytesdata = file.getvalue()
+        data= bytesdata.decode("utf-8")
+        df=Preprocess_Engine.data_Preprocess(data)
+    elif file.type == "text/html":
+        bytesdata = file.getvalue()
+        data= bytesdata.decode("utf-8")
+        df=Telegram_Preprocess_Engine.data_Preprocess(data)
 
-    df=Preprocess_Engine.data_Preprocess(data)
+
 
     st.dataframe(df)
-
     users = df['username'].unique().tolist()
     users.remove('Group Notification')
     users.sort()
@@ -78,7 +83,7 @@ if file is not None:
         monthly_data, monthly_data_count = Engine.monthly_data(selected_user, df)
         fig_m = px.line(monthly_data, y= monthly_data.message, x = monthly_data.timeline)
         fig_b = px.bar(monthly_data_count, x=monthly_data_count.index,y=monthly_data_count.values)
-        st.header("Downfall of Brogrammers")
+        st.header("Monthly Activity")
         st.plotly_chart(fig_m)
         st.plotly_chart(fig_b)
 
