@@ -5,7 +5,7 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-st.sidebar.title("Whatspp Chat ANalysis")
+st.sidebar.title("Social WordSmith - Chat Analysis")
 file = st.sidebar.file_uploader("Upload chat data file")
 
 if file is not None:
